@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+%matplotlib inline
 
 # %% codecell
 df = pd.read_csv('housing.csv')
@@ -20,6 +21,7 @@ df['income_cat'] = np.ceil(df['median_income'] / 1.5)
 # print(df['income_cat'])
 df['income_cat'] = df['income_cat'].where(df['income_cat'] <= 5, other=5.0)
 sns.distplot(df['income_cat'], kde=False)
+plt.figure(figsize=(8, 8))
 plt.hist(df['income_cat'])
 
 # %% codecell
@@ -46,3 +48,26 @@ housing = strat_train_set.copy()
 # to visualize geographical data, then you can use a scatterplot
 plt.figure(figsize=(12,12))
 sns.scatterplot(x='longitude', y='latitude', data=housing, alpha=0.4, hue='median_house_value', size='population', sizes={10, 500})
+
+# %% codecell
+
+corr_matrix = housing.corr()
+# print(corr_matrix['median_house_value'].sort_values())
+# print(corr_matrix['median_house_value'].sort_values().iloc[0])
+
+plt.figure(figsize=(12,12))
+sns.catplot(x='index', y='median_house_value', data=corr_matrix.reset_index(), kind='bar')
+plt.savefig('Correlation.png')
+
+
+
+
+
+
+
+
+
+
+
+
+
